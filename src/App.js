@@ -1,26 +1,38 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {PureComponent} from 'react';
+import {connect} from 'react-redux';
+import T from 'prop-types';
+import {fetchUsers} from './actions';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends PureComponent {
+  componentDidMount() {
+    this.props.onFetchUsers();
+  }
+
+  render() {
+    console.log('users', this.props.users);
+    return (
+      <div className="App">
+        <div></div>
+      </div>
+    );
+  }
 }
 
-export default App;
+App.propTypes = {
+  onFetchUsers: T.func.isRequired,
+  users: T.array.isRequired,
+  isloading: T.bool,
+  isError: T.bool,
+};
+
+const mapStateToProps = ({users, isloading, isError}) => ({
+  users,
+  isloading,
+  isError,
+});
+
+const mapDispatchToProps = dispatch => ({
+  onFetchUsers: () => dispatch(fetchUsers()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
