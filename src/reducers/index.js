@@ -1,5 +1,5 @@
 import {combineReducers} from 'redux';
-import {modal as defaultModal} from '../config';
+import {modal as defaultModal, settings} from '../config';
 import {
   FETCH_USERS_REQUEST,
   FETCH_USERS_FAILURE,
@@ -22,30 +22,6 @@ const updateUsers = (users, user) => {
   return [...users.slice(0, itemIndex), user, ...users.slice(itemIndex + 1)];
 };
 
-const loading = (state = false, action) => {
-  switch (action.type) {
-    case FETCH_USERS_REQUEST:
-      return true;
-    case FETCH_USERS_FAILURE:
-    case FETCH_USERS_SUCCESS:
-      return false;
-    default:
-      return state;
-  }
-};
-
-const error = (state = false, action) => {
-  switch (action.type) {
-    case FETCH_USERS_FAILURE:
-      return true;
-    case FETCH_USERS_SUCCESS:
-    case FETCH_USERS_REQUEST:
-      return false;
-    default:
-      return state;
-  }
-};
-
 const users = (state = [], action) => {
   switch (action.type) {
     case FETCH_USERS_SUCCESS:
@@ -61,17 +37,14 @@ const users = (state = [], action) => {
   }
 };
 
-const modal = (state = defaultModal, action) => {
+const usersSettings = (state = settings, action) => {
   switch (action.type) {
-    case OPEN_MODAL:
-      return {...state, [action.name]: true};
-    case CLOSE_MODAL:
-      return {...state, [action.name]: false};
-    // case DELETE_USER_SUCCESS:
-    //   return {...state, delete: false};
-    case CREATE_USER_SUCCESS:
-    case UPDATE_USER_SUCCESS:
-      return {...state, create: false};
+    case FETCH_USERS_REQUEST:
+      return {loading: true, error: false};
+    case FETCH_USERS_FAILURE:
+      return {loading: false, error: true};
+    case FETCH_USERS_SUCCESS:
+      return {loading: false, error: false};
     default:
       return state;
   }
@@ -88,26 +61,46 @@ const currentUser = (state = {}, action) => {
   }
 };
 
-const manageError = (state = null, action) => {
+const modal = (state = defaultModal, action) => {
   switch (action.type) {
-    case CREATE_USER_FAILURE:
-    case UPDATE_USER_FAILURE:
-      return action.error;
+    case OPEN_MODAL:
+      return {...state, [action.name]: true};
     case CLOSE_MODAL:
+      return {...state, [action.name]: false};
+    case DELETE_USER_SUCCESS:
+      return {...state, delete: false};
+    case CREATE_USER_SUCCESS:
+    case UPDATE_USER_SUCCESS:
+      return {...state, create: false};
+    default:
+      return state;
+  }
+};
+
+const modalSettings = (state = settings, action) => {
+  switch (action.type) {
     case CREATE_USER_REQUEST:
     case UPDATE_USER_REQUEST:
-      return null;
+    case DELETE_USER_REQUEST:
+      return {loading: true, error: false};
+    case CLOSE_MODAL:
+    case CREATE_USER_SUCCESS:
+    case UPDATE_USER_SUCCESS:
+    case DELETE_USER_SUCCESS:
+      return {loading: false, error: false};
+    case CREATE_USER_FAILURE:
+    case UPDATE_USER_FAILURE:
+    case DELETE_USER_FAILURE:
+      return {loading: false, error: action.error};
     default:
       return state;
   }
 };
 
 export default combineReducers({
-  loading,
-  error,
   users,
-  modal,
+  usersSettings,
   currentUser,
-  // manageLoading,
-  manageError,
+  modal,
+  modalSettings,
 });

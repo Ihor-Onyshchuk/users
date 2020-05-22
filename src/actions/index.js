@@ -83,9 +83,12 @@ export const editUser = user => dispatch => {
   updateUser(user)
     .then(response => dispatch(updateUserSuccess(response.data || [])))
     .catch(
-      error =>
-        error.response.status === 422 &&
-        dispatch(updateUserFailure(error.response.data.errors))
+      err => {
+        let error;
+        if (err.response.status === 422) error = err.response.data.errors
+        else error = true
+        dispatch(updateUserFailure(error))
+      }
     );
 };
 
@@ -98,15 +101,16 @@ export const deleteUserSuccess = userId => ({
   userId,
 });
 
-export const deleteUserFailure = () => ({
+export const deleteUserFailure = (error) => ({
   type: DELETE_USER_FAILURE,
+  error
 });
 
 export const removeUser = userId => dispatch => {
   dispatch(deleteUserRequest());
   deleteUser(userId)
     .then(() => dispatch(deleteUserSuccess(userId)))
-    .catch(() => dispatch(deleteUserFailure()));
+    .catch(() => dispatch(deleteUserFailure({error: true})));
 };
 
 export const modalOpen = (name, user) => ({
