@@ -21,4 +21,4 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 > Open [Live demo]()
 
-![cover for app]('preview')
+![cover for app](https://github.com/Ihor-Onyshchuk/users/blob/master/preview.png 'preview')
