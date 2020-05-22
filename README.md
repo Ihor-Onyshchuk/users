@@ -19,6 +19,6 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 ### Live demo
 
-> Open [Live demo]()
+> Open [Live demo](https://ihor-onyshchuk.github.io/users/)
 
 ![cover for app](https://github.com/Ihor-Onyshchuk/users/blob/master/preview.png 'preview')
