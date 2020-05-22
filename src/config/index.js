@@ -29,6 +29,6 @@ export const errorsList = {
 };
 
 export const pagination = {
-  perPage: 2,
+  perPage: 5,
   rangePage: 3,
 };

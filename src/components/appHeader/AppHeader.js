@@ -1,5 +1,5 @@
-import React from 'react'
-import T from 'prop-types'
+import React from 'react';
+import T from 'prop-types';
 
 const AppHeader = ({onModalOpen}) => (
   <header className="border-bottom">
@@ -9,7 +9,12 @@ const AppHeader = ({onModalOpen}) => (
           <h1>Users</h1>
         </div>
         <div className="col text-right">
-          <button className="btn btn-primary" onClick={() => onModalOpen('create', null)}>Create User</button>
+          <button
+            className="btn btn-primary"
+            onClick={() => onModalOpen('create', null)}
+          >
+            Create User
+          </button>
         </div>
       </div>
     </div>

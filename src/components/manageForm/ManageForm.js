@@ -1,7 +1,8 @@
 import React, {PureComponent} from 'react';
 
-import ErrorMessage from '../common/errorMessage/ErrorMessage'
-import {defaultUser, errorsList} from '../../config'
+import ErrorMessage from '../common/errorMessage/ErrorMessage';
+import loadingIndicator from '../../assets/load-indicator.gif';
+import {defaultUser, errorsList} from '../../config';
 
 class ManageForm extends PureComponent {
   constructor(props) {
@@ -13,14 +14,18 @@ class ManageForm extends PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    const {settings: {error}} = this.props;
-    if (error && error !==  prevProps.settings.error) {
+    const {
+      settings: {error},
+    } = this.props;
+    if (error && error !== prevProps.settings.error) {
       this.setState({errors: error});
     }
   }
 
   handleInputChange = event => {
-    const {target: {value, name}} = event;
+    const {
+      target: {value, name},
+    } = event;
     const {errors, user} = this.state;
 
     this.setState({
@@ -41,10 +46,13 @@ class ManageForm extends PureComponent {
   };
 
   render() {
-    const {isEdit, settings: {loading}} = this.props;
+    const {
+      isEdit,
+      settings: {loading},
+    } = this.props;
     const {
       user: {name, surname, desc},
-      errors
+      errors,
     } = this.state;
     const commonError = typeof errors === 'boolean';
 
@@ -60,7 +68,9 @@ class ManageForm extends PureComponent {
             value={name}
             onChange={this.handleInputChange}
           />
-          {!commonError && errors?.name && <ErrorMessage message={errorsList[errors.name[0]]} />}
+          {!commonError && errors?.name && (
+            <ErrorMessage message={errorsList[errors.name[0]]} />
+          )}
         </div>
         <div className="form-group">
           <label htmlFor="surname">Surname</label>
@@ -72,9 +82,10 @@ class ManageForm extends PureComponent {
             value={surname}
             onChange={this.handleInputChange}
           />
-          {!commonError && errors?.surname && <ErrorMessage message={errorsList[errors.surname[0]]} />}
+          {!commonError && errors?.surname && (
+            <ErrorMessage message={errorsList[errors.surname[0]]} />
+          )}
         </div>
-
         <div className="form-group">
           <label htmlFor="name">Description</label>
           <textarea
@@ -84,12 +95,19 @@ class ManageForm extends PureComponent {
             value={desc}
             onChange={this.handleInputChange}
           />
-          {!commonError && errors?.desc && <ErrorMessage message={errorsList[errors.desc[0]]} />}
+          {!commonError && errors?.desc && (
+            <ErrorMessage message={errorsList[errors.desc[0]]} />
+          )}
         </div>
         {commonError && errors && <ErrorMessage />}
         <button type="submit" className="btn btn-primary" disabled={loading}>
           {isEdit ? 'Edit' : 'Create'}
-        </button> {loading && 'Loading...'}
+        </button>{' '}
+        {loading && (
+          <div className="d-inline-block">
+            <img src={loadingIndicator} />
+          </div>
+        )}
       </form>
     );
   }

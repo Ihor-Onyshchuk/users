@@ -3,7 +3,10 @@ import T from 'prop-types';
 import Pagination from 'react-js-pagination';
 
 import ErrorMessage from '../common/errorMessage/ErrorMessage';
+import loadingIndicator from '../../assets/load-indicator-md.gif';
 import {pagination} from '../../config';
+import avatarSrc from '../../assets/img/user.png';
+import './UserList.scss';
 
 class UserList extends PureComponent {
   constructor(props) {
@@ -49,39 +52,62 @@ class UserList extends PureComponent {
       <div className="container pt-5">
         <div className="row row-cols-1">
           <div className="col">
-            {loading && 'Loading ...'}
             {!loading && error && <ErrorMessage />}
             {!loading && !users.length && 'No users, create a new one'}
             {users.map(user => (
-              <ul key={user.id}>
-                <li>
-                  <div>Name: {user.name}</div>
-                  <div>Surname: {user.surname}</div>
-                  <div>Description: {user.desc}</div>
-                  <i
-                    className="far fa-trash-alt"
-                    onClick={() => onModalOpen('delete', user)}
-                  />
-                  <i
-                    className="fas fa-pencil-alt"
-                    onClick={() => onModalOpen('create', user)}
-                  />
-                </li>
-              </ul>
+              <div key={user.id} className="card user-card">
+                <div className="row">
+                  <div className="d-flex justify-content-center col-3">
+                    <img
+                      src={avatarSrc}
+                      className="card-img"
+                      alt="user avatar"
+                    />
+                  </div>
+                  <div className="col-9">
+                    <div className="card-body p-0">
+                      <h5 className="card-title">
+                        {user.name} {user.surname}
+                      </h5>
+                      <p className="card-text">{user.desc}</p>
+                      <button
+                        className="btn btn btn-outline-danger"
+                        onClick={() => onModalOpen('delete', user)}
+                      >
+                        <i className="far fa-trash-alt" />
+                      </button>
+                      <button
+                        className="btn btn-outline-warning ml-2"
+                        onClick={() => onModalOpen('create', user)}
+                      >
+                        <i className="fas fa-pencil-alt" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             ))}
             {allUsers.length > pagination.perPage && (
-              <Pagination
-                activePage={activePage}
-                itemsCountPerPage={pagination.perPage}
-                totalItemsCount={allUsers.length}
-                pageRangeDisplayed={pagination.rangePage}
-                onChange={this.handlePageChange}
-                itemClass="page-item"
-                linkClass="page-link"
-              />
+              <div className="d-flex justify-content-center">
+                <Pagination
+                  itemClass="page-item"
+                  linkClass="page-link"
+                  activePage={activePage}
+                  itemsCountPerPage={pagination.perPage}
+                  totalItemsCount={allUsers.length}
+                  pageRangeDisplayed={pagination.rangePage}
+                  onChange={this.handlePageChange}
+                />
+              </div>
             )}
           </div>
         </div>
+        {loading && (
+          <div className="d-inline-block load-indicator">
+            <img className="load-img" src={loadingIndicator} />
+            <div className="load-bg"></div>
+          </div>
+        )}
       </div>
     );
   }
