@@ -22,7 +22,7 @@ const ConfirmForm = ({
         <strong>
           {user.name} {user.surname}
         </strong>{' '}
-        form the list?
+        from the list?
       </h5>
       <div className="btn-wrapper position-relative">
         <button
