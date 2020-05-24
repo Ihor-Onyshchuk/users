@@ -26,7 +26,7 @@ const ConfirmForm = ({
       </h5>
       <div className="btn-wrapper position-relative">
         <button
-          className="btn btn btn-outline-secondary"
+          className="btn btn-outline-secondary"
           type="button"
           onClick={() => onModalClose()}
         >
